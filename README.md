@@ -4,6 +4,12 @@ Prueba técnica de PHP — **Audisoft**.
 
 Aplicación web desarrollada con Laravel que permite gestionar una colección de sitios web favoritos organizados por categorías.
 
+## Vista Previa
+
+| Gestor de Sitios | Gestor de Categorías |
+| :---: | :---: |
+| ![Gestor de Sitios](public/images/Captura%20de%20pantalla%202026-07-02%20173243.png) | ![Gestor de Categorías](public/images/Captura%20de%20pantalla%202026-07-02%20173251.png) |
+
 ## Funcionalidades
 
 - **Sitios**: listar, agregar y eliminar sitios web con nombre, URL (enlace clicable en nueva pestaña) y categoría.
