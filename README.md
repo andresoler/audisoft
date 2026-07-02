@@ -79,6 +79,57 @@ Crear la base de datos manualmente y luego ejecutar:
 php artisan migrate --seed
 ```
 
+## Script SQL de la Base de Datos (`schema.sql`)
+
+Si se prefiere inicializar la base de datos directamente usando comandos SQL (sin ejecutar las migraciones de Laravel), se puede utilizar el archivo [schema.sql](file:///g:/Proyectos/Audisoft/audisoft-app/schema.sql) ubicado en la raíz del proyecto.
+
+Este script realiza lo siguiente:
+1. Crea la base de datos `sitios_favoritos` si no existe y la selecciona.
+2. Crea la tabla `categories`.
+3. Crea la tabla `sites` incluyendo la relación de clave foránea hacia `categories` con la regla `ON DELETE RESTRICT`.
+4. Inserta las categorías por defecto (`Ropa`, `Electrónicos`, `Música`, `Comida`, `Libros`).
+
+Para ejecutarlo, se puede importar directamente en la terminal de MySQL o a través de clientes gráficos como phpMyAdmin, DBeaver, etc.:
+
+```bash
+mysql -u tu_usuario -p < schema.sql
+```
+
+### Contenido de `schema.sql`
+
+```sql
+CREATE DATABASE IF NOT EXISTS sitios_favoritos
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE sitios_favoritos;
+
+CREATE TABLE categories (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE sites (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    category_id BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    CONSTRAINT fk_sites_category
+        FOREIGN KEY (category_id) REFERENCES categories(id)
+        ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+INSERT INTO categories (name, created_at, updated_at) VALUES
+    ('Ropa', NOW(), NOW()),
+    ('Electrónicos', NOW(), NOW()),
+    ('Música', NOW(), NOW()),
+    ('Comida', NOW(), NOW()),
+    ('Libros', NOW(), NOW());
+```
+
 ## Estructura del proyecto (archivos relevantes)
 
 ```
